@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>State 4104 SVS Prep — Whiteout Survival</title>
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800,900&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+  --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+  --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+  --text-2xl:  clamp(2rem,     1.2rem  + 2.5vw,  3.5rem);
+  --text-3xl:  clamp(2.5rem,   1rem    + 4vw,    5rem);
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+  --space-4: 1rem;    --space-5: 1.25rem; --space-6: 1.5rem;
+  --space-8: 2rem;    --space-10: 2.5rem; --space-12: 3rem;
+  --space-16: 4rem;   --space-20: 5rem;   --space-24: 6rem;
+  --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-lg: 0.75rem;
+  --radius-xl: 1rem;     --radius-full: 9999px;
+  --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  --font-display: 'Cabinet Grotesk', 'Georgia', serif;
+  --font-body: 'Satoshi', 'Helvetica Neue', sans-serif;
+  --content-narrow: 640px; --content-default: 960px; --content-wide: 1200px;
+}
+
+/* DARK THEME (default - gaming site) */
+:root, [data-theme="dark"] {
+  --color-bg:             #0d0f14;
+  --color-surface:        #12151c;
+  --color-surface-2:      #171b24;
+  --color-surface-offset: #1d2230;
+  --color-surface-dynamic:#232840;
+  --color-divider:        #1e2535;
+  --color-border:         #252d40;
+  --color-text:           #dde3f0;
+  --color-text-muted:     #7d8aaa;
+  --color-text-faint:     #3d4a66;
+  --color-text-inverse:   #0d0f14;
+  /* Ice Blue primary */
+  --color-primary:        #4fc3d4;
+  --color-primary-hover:  #73d3e0;
+  --color-primary-active: #9de0ea;
+  --color-primary-highlight: #0d2a30;
+  /* Amber/Fire secondary */
+  --color-amber:          #f59e0b;
+  --color-amber-hover:    #fbbf24;
+  --color-amber-dim:      #7a4e06;
+  --color-amber-highlight:#2a1a00;
+  /* Green for success/safe */
+  --color-success:        #4ade80;
+  --color-success-dim:    #14532d;
+  --color-success-highlight: #0a1a10;
+  /* Red for danger/battle */
+  --color-danger:         #f87171;
+  --color-danger-dim:     #7f1d1d;
+  --color-danger-highlight: #1a0808;
+  /* Purple for special */
+  --color-purple:         #a78bfa;
+  --color-purple-highlight: #1e1030;
+  --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.4);
+  --shadow-md: 0 4px 16px oklch(0 0 0 / 0.5);
+  --shadow-lg: 0 12px 40px oklch(0 0 0 / 0.6);
+}
+
+/* Light theme removed — locked to dark gaming theme */
+
+/* ===== BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-font-smoothing: antialiased; background-color: #0d0f14; color-scheme: dark; }
+body { min-height: 100dvh; font-family: var(--font-body); font-size: var(--text-base); color: #dde3f0; background-color: #0d0f14; line-height: 1.6; }
+img, picture, video, canvas, svg { display: block; max-width: 100%; height: auto; }
+h1,h2,h3,h4 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; }
+p, li { text-wrap: pretty; }
+button { cursor: pointer; background: none; border: none; font: inherit; color: inherit; }
+table { border-collapse: collapse; width: 100%; }
+a { color: var(--color-primary); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--color-primary-hover); }
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
+::selection { background: oklch(from var(--color-primary) l c h / 0.2); color: var(--color-text); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+/* ===== LAYOUT ===== */
+.container { max-width: var(--content-default); margin-inline: auto; padding-inline: var(--space-6); }
+.container--wide { max-width: var(--content-wide); margin-inline: auto; padding-inline: var(--space-6); }
+section { padding-block: clamp(var(--space-12), 6vw, var(--space-20)); background-color: #0d0f14; }
+hr.section-divider { background-color: #0d0f14; }
+
+/* ===== NAV ===== */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: oklch(from var(--color-bg) l c h / 0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--color-divider);
+  padding: var(--space-3) 0;
+}
+.nav__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); max-width: var(--content-wide); margin-inline: auto; padding-inline: var(--space-6); }
+.nav__logo { display: flex; align-items: center; gap: var(--space-3); font-family: var(--font-display); font-weight: 800; font-size: var(--text-sm); color: var(--color-text); letter-spacing: -0.01em; }
+.nav__logo svg { flex-shrink: 0; }
+.nav__links { display: flex; gap: var(--space-1); list-style: none; flex-wrap: wrap; }
+.nav__links a { font-size: var(--text-xs); font-weight: 500; color: var(--color-text-muted); padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); transition: color var(--transition), background var(--transition); white-space: nowrap; }
+.nav__links a:hover { color: var(--color-text); background: var(--color-surface-offset); }
+.nav__links a.active { color: var(--color-primary); background: var(--color-primary-highlight); }
+.nav__actions { display: flex; align-items: center; gap: var(--space-2); }
+.btn-icon { padding: var(--space-2); border-radius: var(--radius-md); color: var(--color-text-muted); transition: color var(--transition), background var(--transition); }
+.btn-icon:hover { color: var(--color-text); background: var(--color-surface-offset); }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 70vh; display: flex; align-items: center;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, oklch(from var(--color-primary) l c h / 0.08) 0%, transparent 70%),
+              radial-gradient(ellipse 60% 40% at 80% 80%, oklch(from var(--color-amber) l c h / 0.05) 0%, transparent 60%),
+              var(--color-bg);
+  padding-block: var(--space-24);
+  text-align: center; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 60px, oklch(from var(--color-primary) l c h / 0.02) 60px, oklch(from var(--color-primary) l c h / 0.02) 61px),
+                    repeating-linear-gradient(90deg, transparent, transparent 60px, oklch(from var(--color-primary) l c h / 0.02) 60px, oklch(from var(--color-primary) l c h / 0.02) 61px);
+  pointer-events: none;
+}
+.hero__content { position: relative; }
+.hero__eyebrow { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-primary); background: var(--color-primary-highlight); border: 1px solid oklch(from var(--color-primary) l c h / 0.2); padding: var(--space-1) var(--space-4); border-radius: var(--radius-full); margin-bottom: var(--space-6); }
+.hero__title { font-size: var(--text-3xl); font-weight: 900; color: var(--color-text); letter-spacing: -0.03em; margin-bottom: var(--space-6); line-height: 1.05; }
+.hero__title span { color: var(--color-primary); }
+.hero__subtitle { font-size: var(--text-lg); color: var(--color-text-muted); max-width: 560px; margin-inline: auto; margin-bottom: var(--space-10); line-height: 1.5; }
+.hero__pills { display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap; }
+.pill { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-xs); font-weight: 600; padding: var(--space-2) var(--space-4); border-radius: var(--radius-full); border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted); }
+.pill--blue { border-color: oklch(from var(--color-primary) l c h / 0.3); background: var(--color-primary-highlight); color: var(--color-primary); }
+.pill--amber { border-color: oklch(from var(--color-amber) l c h / 0.3); background: var(--color-amber-highlight); color: var(--color-amber); }
+.pill--green { border-color: oklch(from var(--color-success) l c h / 0.3); background: var(--color-success-highlight); color: var(--color-success); }
+.pill--red { border-color: oklch(from var(--color-danger) l c h / 0.3); background: var(--color-danger-highlight); color: var(--color-danger); }
+.pill--purple { border-color: oklch(from var(--color-purple) l c h / 0.3); background: var(--color-purple-highlight); color: var(--color-purple); }
+
+/* ===== SECTION HEADINGS ===== */
+.section-header { margin-bottom: var(--space-10); }
+.section-label { display: inline-block; font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-primary); margin-bottom: var(--space-3); }
+.section-title { font-size: var(--text-2xl); font-weight: 800; letter-spacing: -0.02em; color: var(--color-text); }
+.section-desc { font-size: var(--text-base); color: var(--color-text-muted); margin-top: var(--space-3); max-width: 65ch; }
+
+/* ===== CARDS ===== */
+.card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-sm); }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px,100%), 1fr)); gap: var(--space-4); }
+.card-grid--3 { grid-template-columns: repeat(auto-fill, minmax(min(300px,100%), 1fr)); }
+
+/* Cycle card */
+.cycle-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-sm); }
+.cycle-card__header { padding: var(--space-4) var(--space-6); display: flex; align-items: center; gap: var(--space-3); border-bottom: 1px solid var(--color-divider); }
+.cycle-num { width: 32px; height: 32px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: var(--text-xs); flex-shrink: 0; }
+.cycle-card__body { padding: var(--space-5) var(--space-6); }
+.cycle-card__title { font-family: var(--font-display); font-weight: 700; font-size: var(--text-base); color: var(--color-text); }
+.cycle-card__sub { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-1); }
+.cycle-card__body p { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; }
+
+/* ===== TIMELINE TABLE ===== */
+.timeline-wrapper { overflow-x: auto; border-radius: var(--radius-xl); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); }
+.timeline-table { width: 100%; min-width: 760px; }
+.timeline-table thead tr { background: var(--color-surface-offset); }
+.timeline-table thead th { padding: var(--space-3) var(--space-4); text-align: left; font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-muted); border-bottom: 1px solid var(--color-border); white-space: nowrap; }
+.timeline-table tbody tr { background: var(--color-surface); transition: background var(--transition); }
+.timeline-table tbody tr:hover { background: var(--color-surface-2); }
+.timeline-table tbody tr:not(:last-child) td { border-bottom: 1px solid var(--color-divider); }
+.timeline-table td { padding: var(--space-4); vertical-align: top; font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.55; }
+.timeline-table td:first-child { white-space: nowrap; }
+.timeline-table td strong { color: var(--color-text); font-weight: 600; display: block; margin-bottom: var(--space-1); }
+.timeline-table .phase-group td { border-top: 2px solid var(--color-border); }
+.phase-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: var(--radius-full); margin-bottom: var(--space-2); }
+
+/* ===== PHASE COLORS ===== */
+.phase--pre { background: var(--color-purple-highlight); color: var(--color-purple); }
+.phase--prep { background: var(--color-primary-highlight); color: var(--color-primary); }
+.phase--battle { background: var(--color-danger-highlight); color: var(--color-danger); }
+.phase--triage { background: var(--color-success-highlight); color: var(--color-success); }
+.phase--amber { background: var(--color-amber-highlight); color: var(--color-amber); }
+.time-tag { font-family: monospace; font-size: var(--text-xs); font-weight: 600; color: var(--color-primary); background: var(--color-primary-highlight); padding: 2px 6px; border-radius: var(--radius-sm); white-space: nowrap; }
+
+/* ===== CALLOUT BLOCKS ===== */
+.callout { display: flex; gap: var(--space-4); padding: var(--space-5) var(--space-6); border-radius: var(--radius-lg); margin: var(--space-6) 0; }
+.callout--info { background: var(--color-primary-highlight); border: 1px solid oklch(from var(--color-primary) l c h / 0.2); }
+.callout--warn { background: var(--color-amber-highlight); border: 1px solid oklch(from var(--color-amber) l c h / 0.25); }
+.callout--danger { background: var(--color-danger-highlight); border: 1px solid oklch(from var(--color-danger) l c h / 0.2); }
+.callout--success { background: var(--color-success-highlight); border: 1px solid oklch(from var(--color-success) l c h / 0.2); }
+.callout__icon { font-size: 1.25rem; flex-shrink: 0; line-height: 1.6; }
+.callout__content p { font-size: var(--text-sm); line-height: 1.6; }
+.callout--info .callout__content p { color: var(--color-primary); }
+.callout--warn .callout__content p { color: var(--color-amber); }
+.callout--danger .callout__content p { color: var(--color-danger); }
+.callout--success .callout__content p { color: var(--color-success); }
+.callout strong { font-weight: 700; }
+
+/* ===== OUTCOME GRID ===== */
+.outcome-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(220px,100%), 1fr)); gap: var(--space-4); }
+.outcome-card { border-radius: var(--radius-lg); padding: var(--space-5); border: 1px solid var(--color-border); background: var(--color-surface); }
+.outcome-card__result { font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--space-3); }
+.outcome-card h4 { font-family: var(--font-display); font-weight: 700; font-size: var(--text-base); color: var(--color-text); margin-bottom: var(--space-2); }
+.outcome-card p { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.55; }
+
+/* ===== TIPS ===== */
+.tips-list { display: flex; flex-direction: column; gap: var(--space-4); }
+.tip { display: flex; gap: var(--space-4); align-items: flex-start; padding: var(--space-5); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+.tip__num { width: 28px; height: 28px; border-radius: var(--radius-full); background: var(--color-primary-highlight); color: var(--color-primary); font-size: var(--text-xs); font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; font-family: var(--font-display); }
+.tip__body h4 { font-family: var(--font-display); font-weight: 700; font-size: var(--text-base); color: var(--color-text); margin-bottom: var(--space-1); }
+.tip__body p { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; }
+
+/* ===== SECTION DIVIDER ===== */
+.section-divider { border: none; border-top: 1px solid var(--color-divider); margin: 0; }
+
+/* ===== FOOTER ===== */
+.footer { background: var(--color-surface); border-top: 1px solid var(--color-divider); padding: var(--space-10) 0; text-align: center; }
+.footer p { font-size: var(--text-xs); color: var(--color-text-faint); }
+
+/* ===== DAY BADGE ===== */
+.day-badge { font-size: var(--text-xs); font-weight: 800; font-family: var(--font-display); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .nav__links { display: none; }
+  .hero { min-height: 60vh; padding-block: var(--space-16); }
+  .hero__title { font-size: clamp(2rem, 8vw, 3rem); }
+  section { padding-block: var(--space-10); }
+  .tip { flex-direction: column; gap: var(--space-3); }
+}
+
+/* ===== STICKY NAV HIGHLIGHT ===== */
+.section-anchor { display: block; position: relative; top: -5rem; visibility: hidden; }
+
+/* ===== TROOP RATIO TABLE ===== */
+.ratio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px,100%), 1fr)); gap: var(--space-4); margin-top: var(--space-6); }
+.ratio-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); }
+.ratio-card h4 { font-family: var(--font-display); font-weight: 700; font-size: var(--text-sm); color: var(--color-text); margin-bottom: var(--space-3); }
+.ratio-bars { display: flex; flex-direction: column; gap: var(--space-2); }
+.ratio-row { display: flex; align-items: center; gap: var(--space-3); }
+.ratio-label { font-size: var(--text-xs); color: var(--color-text-muted); width: 80px; flex-shrink: 0; }
+.ratio-bar-wrap { flex: 1; height: 8px; background: var(--color-surface-offset); border-radius: var(--radius-full); overflow: hidden; }
+.ratio-bar { height: 100%; border-radius: var(--radius-full); }
+.ratio-pct { font-size: var(--text-xs); font-weight: 700; font-family: monospace; width: 32px; text-align: right; }
+.bar-infantry { background: var(--color-primary); }
+.bar-lancer { background: var(--color-amber); }
+.bar-marksman { background: var(--color-success); }
+
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav__inner">
+    <a href="#" class="nav__logo" aria-label="SVS Guide Home">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="currentColor" stroke-width="1.5" fill="none" style="color:var(--color-primary)"/>
+        <polygon points="14,7 21,11 21,18 14,22 7,18 7,11" fill="var(--color-primary)" opacity="0.25"/>
+        <line x1="14" y1="2" x2="14" y2="7" stroke="var(--color-primary)" stroke-width="1.5"/>
+        <line x1="14" y1="22" x2="14" y2="26" stroke="var(--color-primary)" stroke-width="1.5"/>
+        <line x1="2" y1="8" x2="7" y2="11" stroke="var(--color-primary)" stroke-width="1.5"/>
+        <line x1="21" y1="18" x2="26" y2="20" stroke="var(--color-primary)" stroke-width="1.5"/>
+        <line x1="26" y1="8" x2="21" y2="11" stroke="var(--color-primary)" stroke-width="1.5"/>
+        <line x1="7" y1="18" x2="2" y2="20" stroke="var(--color-primary)" stroke-width="1.5"/>
+      </svg>
+      <span>SVS Guide</span>
+    </a>
+    <ul class="nav__links" role="list">
+      <li><a href="#cycle">Cycle</a></li>
+      <li><a href="#predict">Predict SVS</a></li>
+      <li><a href="#matchmaking">Matchmaking</a></li>
+      <li><a href="#prep">Prep Phase</a></li>
+      <li><a href="#battle">Battle Phase</a></li>
+      <li><a href="#triage">Field Triage</a></li>
+      <li><a href="#outcomes">Outcomes</a></li>
+      <li><a href="#tips">Pro Tips</a></li>
+    </ul>
+    <div class="nav__actions">
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <div class="container">
+    <div class="hero__content">
+      <div class="hero__eyebrow">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><polygon points="6,1 11,4 11,8 6,11 1,8 1,4"/></svg>
+        Whiteout Survival
+      </div>
+      <h1 class="hero__title">State 4104 Prep<br><span>SVS Complete Field Guide</span></h1>
+      <p class="hero__subtitle">Everything a State 4104 player needs to know — from matchmaking through troop revival. A state-level resource that any alliance can share with new players ahead of SVS.</p>
+      <div class="hero__pills">
+        <span class="pill pill--purple">Matchmaking</span>
+        <span class="pill pill--blue">Prep Phase</span>
+        <span class="pill pill--amber">Castle Battle</span>
+        <span class="pill pill--red">Cross-State Raids</span>
+        <span class="pill pill--green">Field Triage</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CYCLE OVERVIEW ===== -->
+<span class="section-anchor" id="cycle"></span>
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">The Monthly Rotation</span>
+      <h2 class="section-title">The 4-Week SVS Cycle</h2>
+      <p class="section-desc">Once a state qualifies, SVS runs on a repeating monthly rotation. Each week has a defined role — learn it so you know exactly what to stockpile and when.</p>
+    </div>
+    <div class="card-grid">
+      <div class="cycle-card">
+        <div class="cycle-card__header">
+          <div class="cycle-num" style="background:var(--color-primary-highlight);color:var(--color-primary);">1</div>
+          <div><div class="cycle-card__title">King of Icefield</div><div class="cycle-card__sub">Week 1 · Mon–Sat</div></div>
+        </div>
+        <div class="cycle-card__body"><p>Internal state competition runs as normal. SVS is not active. Focus on everyday growth but begin holding consumables for SVS prep in the following cycle.</p></div>
+      </div>
+      <div class="cycle-card">
+        <div class="cycle-card__header">
+          <div class="cycle-num" style="background:var(--color-surface-offset);color:var(--color-text-muted);">2</div>
+          <div><div class="cycle-card__title">Sunfire Castle Battle</div><div class="cycle-card__sub">Week 2 · Saturday</div></div>
+        </div>
+        <div class="cycle-card__body"><p>Your state's internal castle battle. Winning alliance controls the SFC and state buffs. The KOI appearing next week signals SVS is approximately two weeks away.</p></div>
+      </div>
+      <div class="cycle-card">
+        <div class="cycle-card__header">
+          <div class="cycle-num" style="background:var(--color-primary-highlight);color:var(--color-primary);">3</div>
+          <div><div class="cycle-card__title">SVS Prep Phase</div><div class="cycle-card__sub">Week 3 · Mon 00:00 – Sat 10:00 UTC</div></div>
+        </div>
+        <div class="cycle-card__body"><p>Five and a half days of competitive point scoring. Each day focuses on a different activity. The state with more total points wins and chooses to invade the enemy castle.</p></div>
+      </div>
+      <div class="cycle-card">
+        <div class="cycle-card__header">
+          <div class="cycle-num" style="background:var(--color-danger-highlight);color:var(--color-danger);">4</div>
+          <div><div class="cycle-card__title">SVS Battle Phase</div><div class="cycle-card__sub">Week 4 · Saturday</div></div>
+        </div>
+        <div class="cycle-card__body"><p>Cross-state portals open at 10:00 UTC. Castle Battle begins at 12:00 UTC in the losing prep state. Portals stay open until 22:00 UTC. Field Triage opens after.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ===== PREDICT SVS ===== -->
+<span class="section-anchor" id="predict"></span>
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Calendar Intelligence</span>
+      <h2 class="section-title">How to Predict When SVS Will Arrive</h2>
+      <p class="section-desc">You won't get an exact date far in advance — but these two signals give you reliable advance warning.</p>
+    </div>
+    <div class="card-grid" style="grid-template-columns:1fr 1fr; gap:var(--space-6);">
+      <div class="card" style="border-color:oklch(from var(--color-primary) l c h / 0.3); background:var(--color-primary-highlight);">
+        <div style="font-size:2rem;margin-bottom:var(--space-3);">📅</div>
+        <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-lg);color:var(--color-text);margin-bottom:var(--space-2);">Signal #1 — Check the Event Calendar</h3>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.6;"><strong style="color:var(--color-primary);">If King of Icefield (KOI) is scheduled for next week, SVS will arrive approximately 2 weeks from now.</strong> This is the clearest advance notice the game gives. Check your in-game event calendar every week and watch for KOI to appear.</p>
+      </div>
+      <div class="card" style="border-color:oklch(from var(--color-amber) l c h / 0.3); background:var(--color-amber-highlight);">
+        <div style="font-size:2rem;margin-bottom:var(--space-3);">🏰</div>
+        <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-lg);color:var(--color-text);margin-bottom:var(--space-2);">Signal #2 — Count Your Castle Battles</h3>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.6;"><strong style="color:var(--color-amber);">You've just finished your 2nd Sunfire Castle battle.</strong> SVS first unlocks around Day 80 of your server. From the current position in the cycle, the state is in the final stretch — matchmaking is imminent. Timing can slip by 1–2 weeks if the system can't find a matched opponent.</p>
+      </div>
+    </div>
+    <div class="callout callout--info" style="margin-top:var(--space-6);">
+      <div class="callout__icon">💡</div>
+      <div class="callout__content"><p><strong>While you wait:</strong> You don't need to hold everything. Everyday activities (daily quests, gathering, hunting beasts, regular training) are fine. What to stockpile: <strong>Fire Crystals, Refined Fire Crystals, Construction/Research Speedups, Training Speedups, Mithril, Hero Shards, Lucky Chips, and Stamina Cans.</strong> These are the point-scoring items for specific prep days.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ===== MATCHMAKING ===== -->
+<span class="section-anchor" id="matchmaking"></span>
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Phase 0</span>
+      <h2 class="section-title">Matchmaking — The Week Before Prep</h2>
+      <p class="section-desc">The game evaluates the state's military strength and finds a comparably powerful opponent. Here's how it works and what to know.</p>
+    </div>
+    <div class="timeline-wrapper">
+      <table class="timeline-table" aria-label="Matchmaking phase timeline">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Time (UTC)</th>
+            <th>Event</th>
+            <th>What Happens</th>
+            <th>Rules</th>
+            <th>How to Prepare</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="day-badge">Friday</span><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">~2 weeks before battle</span></td>
+            <td><span class="time-tag">00:00</span></td>
+            <td><span class="phase-tag phase--pre">Pre-SVS</span><strong>Matchmaking Begins</strong></td>
+            <td>System evaluates your top 100 chiefs' troop power to find a comparably matched enemy state. The algorithm runs automatically in the background — no player action required.</td>
+            <td>Players cannot influence the matchmaking algorithm. Some alliances attempt to hide power by removing gear or resetting heroes — effectiveness is disputed by developers.</td>
+            <td>Discuss power-hiding strategy with your R4/R5. Consider your approach: full transparency vs. power masking. Either way, prepare your stockpile now.</td>
+          </tr>
+          <tr>
+            <td><span class="day-badge">Saturday</span></td>
+            <td><span class="time-tag">00:00</span></td>
+            <td><span class="phase-tag phase--pre">Pre-SVS</span><strong>Opponent Revealed</strong></td>
+            <td>Your matched enemy state becomes visible. Cross-state borders remain closed — no attacks yet. This is your window to gather intelligence on your opponents.</td>
+            <td>You cannot attack across state lines until Battle Day. Use this time for scouting only.</td>
+            <td>Create an alt account in the enemy state. Scout their top chiefs, furnace levels, alliance sizes, and active player count. Share intel with state leaders.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ===== PREP PHASE ===== -->
+<span class="section-anchor" id="prep"></span>
+<section>
+  <div class="container--wide">
+    <div class="container" style="padding-inline:0;">
+      <div class="section-header">
+        <span class="section-label">Phase 1 · Monday – Saturday 10:00 UTC</span>
+        <h2 class="section-title">Preparation Phase — Day by Day</h2>
+        <p class="section-desc">5.5 days of competitive scoring against your enemy state. Each day targets a different activity. The state with more total points gets to invade — a massive strategic advantage.</p>
+      </div>
+    </div>
+    <div class="timeline-wrapper">
+      <table class="timeline-table" aria-label="Prep phase day by day timeline">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Start (UTC)</th>
+            <th>Stage Name</th>
+            <th>Top Scoring Activities</th>
+            <th>Key Rules &amp; Point Values</th>
+            <th>What to Save / Do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="day-badge" style="color:var(--color-primary);">Monday</span><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Day 1 — 24 hrs</span></td>
+            <td><span class="time-tag">00:00</span></td>
+            <td><span class="phase-tag phase--prep">Prep Day 1</span><strong>City Construction</strong></td>
+            <td>Use Fire Crystals and Refined Fire Crystals on buildings and research. Apply Construction and Research Speedups. Upgrade Chief Charm levels.</td>
+            <td>1 Refined Fire Crystal = 30,000 pts · 1 Fire Crystal = 2,000 pts · 1-minute Speedup = 30 pts · Chief Charm upgrade = large variable pts. Avoid upgrading things that don't score.</td>
+            <td>Save your Fire Crystals, Refined Fire Crystals, and ALL construction/research speedups for this day. DO NOT use them before SVS starts. Start gathering tiles at 16:00 UTC Monday for Day 2 scoring.</td>
+          </tr>
+          <tr>
+            <td><span class="day-badge" style="color:var(--color-primary);">Tuesday</span><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Day 2 — 24 hrs</span></td>
+            <td><span class="time-tag">00:00</span></td>
+            <td><span class="phase-tag phase--prep">Prep Day 2</span><strong>Basic Skills Up</strong></td>
+            <td>Hero Shard use (especially Mythic and Epic), Lucky Wheel spins, gathering resources from map tiles. Continued Fire Crystal use still scores.</td>
+            <td>1 Mythic Hero Shard = 3,040 pts · 1 Lucky Wheel spin = 8,000 pts · 1 Epic Hero Shard = 1,220 pts · 1 Rare Hero Shard = 350 pts. Gathering gives minor points but adds up over the day.</td>
+            <td>Hoard all Mythic and Epic Hero Shards, Lucky Chips. Send marches to high-tier resource tiles on Monday night so they return during Day 2. Do NOT spend these before SVS.</td>
+          </tr>
+          <tr>
+            <td><span class="day-badge" style="color:var(--color-primary);">Wednesday</span><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Day 3 — 24 hrs</span></td>
+            <td><span class="time-tag">00:00</span></td>
+            <td><span class="phase-tag phase--prep">Prep Day 3</span><strong>Beast Slay</strong></td>
+            <td>Solo beast hunts (Lv. 26–30) for high points. Start Polar Terror (Svalbard Bear) rallies with alliance. Pet refinements using Wild Marks also score well.</td>
+            <td>Polar Terror rally = 30,000 pts · Lv.26–30 beast solo = 12,000 pts · Lv.21–25 = 11,250 · Lv.16–20 = 10,500 · Lv.11–15 = 9,750 · Lv.1–10 = 9,000. <strong>CRITICAL: Only the rally STARTER scores from rallies — joiners get 0 points.</strong></td>
+            <td>Save all Stamina Cans and Advanced Wild Marks for this day. Coordinate with alliance on rally leadership rotation so each person gets to start rallies. Burn all stamina on high-level beasts.</td>
+          </tr>
+          <tr>
+            <td><span class="day-badge" style="color:var(--color-primary);">Thursday</span><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Day 4 — 24 hrs</span></td>
+            <td><span class="time-tag">00:00</span></td>
+            <td><span class="phase-tag phase--prep">Prep Day 4</span><strong>Hero Development</strong></td>
+            <td>Train troops (especially T10/T11), upgrade Chief Charm, refine pets using Mithril. The President activates a State Training Buff during this day.</td>
+            <td>1 Mithril = 144,000 pts · T11 troop trained = 75 pts each · T10 = 60 pts each · Chief Charm = 70 pts per score point. Mithril is by far the highest single-item scorer.</td>
+            <td>Save all Mithril, Training Speedups, and Chief Charm upgrade materials. Keep training queues ready to fire the moment Day 4 starts. This day can make or break the state's total.</td>
+          </tr>
+          <tr>
+            <td><span class="day-badge" style="color:var(--color-primary);">Friday</span><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Day 5 — 34 hrs</span></td>
+            <td><span class="time-tag">00:00</span></td>
+            <td><span class="phase-tag phase--prep">Prep Day 5</span><strong>Power Boost</strong></td>
+            <td>"Kitchen sink" day — nearly everything scores: Chief Gear upgrades, Pet upgrades, Hero Gear, Essence Stones, any remaining Fire Crystals, Speedups, Hero Shards. President activates Research Buff.</td>
+            <td>This phase runs 34 hours (not 24), ending Saturday at 10:00 UTC. Spread your remaining stockpile across the full window. All categories from previous days continue to score.</td>
+            <td>Save Chief Gear upgrade materials, Essence Stones, Pet upgrade materials, and any leftover items from Days 1–4. The extra 10 hours at the end is premium scoring time — set alarms.</td>
+          </tr>
+          <tr>
+            <td><span class="day-badge" style="color:var(--color-danger);">Saturday</span></td>
+            <td><span class="time-tag">10:00</span></td>
+            <td><span class="phase-tag phase--amber">Prep Ends</span><strong>Results &amp; Roles Determined</strong></td>
+            <td>Final scores tallied. Winning state is declared the Attacker and chooses to invade enemy territory. Losing state will host the Castle Battle on their turf. Healing Capacity buffs awarded to winner.</td>
+            <td>State with more total points = Attacker (major advantage — Attacker's SFC is safe). Losing state = Defender. Prep rewards distributed immediately at 10:00 UTC.</td>
+            <td>Collect ALL prep rewards before 10:00 UTC. If your state won prep, celebrate briefly — then shield up if you're not joining the invasion force. Battle starts at 12:00 UTC.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout--warn" style="margin-top:var(--space-6);">
+      <div class="callout__icon">⚠️</div>
+      <div class="callout__content"><p><strong>Holding Upgrades — What Actually Matters:</strong> Only hold consumables that directly score points on specific days (Fire Crystals, speedups, Mithril, Hero Shards, etc.). Daily activities like resource gathering, beast hunting with normal stamina, and daily quests are fine to do as usual. You don't need to freeze all progression — just protect your SVS stockpile.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ===== BATTLE PHASE ===== -->
+<span class="section-anchor" id="battle"></span>
+<section>
+  <div class="container--wide">
+    <div class="container" style="padding-inline:0;">
+      <div class="section-header">
+        <span class="section-label">Phase 2 · Saturday 10:00 – 22:00 UTC</span>
+        <h2 class="section-title">Battle Phase — Hour by Hour</h2>
+        <p class="section-desc">The most intense 12 hours in Whiteout Survival. Both states can attack each other simultaneously. Cross-state raids and the Castle Battle happen in parallel.</p>
+      </div>
+    </div>
+    <div class="callout callout--danger" style="margin-bottom:var(--space-6);">
+      <div class="callout__icon">🚨</div>
+      <div class="callout__content"><p><strong>Shield Rule:</strong> If you are not actively online and fighting during Battle Day, you must be shielded from <strong>10:00 UTC until 22:00 UTC</strong>. Enemy players from the opposing state can teleport directly into your hive and attack your city the entire time — even after the Castle Battle ends at ~17:00 UTC.</p></div>
+    </div>
+    <div class="timeline-wrapper">
+      <table class="timeline-table" aria-label="Battle phase hour by hour timeline">
+        <thead>
+          <tr>
+            <th>Time (UTC)</th>
+            <th>Event</th>
+            <th>What Happens</th>
+            <th>Rules</th>
+            <th>How to Prepare / React</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="time-tag">10:00</span></td>
+            <td><span class="phase-tag phase--battle">Battle Phase</span><strong>Transfer Portal Opens</strong><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Cross-state attacks begin</span></td>
+            <td>The inter-state portal activates. Enemy players (Furnace Lv.16+) can now teleport directly into your state — including inside alliance hives — and attack unshielded cities. All president buffs from prep are deactivated.</td>
+            <td>Cannot attack alliance buildings. Furnace Lv.16 minimum to cross states. Each player has 3 free cross-state teleports. Points awarded for enemy troop kills within ±3 furnace levels of attacker.</td>
+            <td>Shield up BEFORE 10:00 UTC if not participating. Prep rewards should already be collected. Coordinate teleport rally points with your alliance.</td>
+          </tr>
+          <tr>
+            <td><span class="time-tag">10:00–11:00</span></td>
+            <td><span class="phase-tag phase--battle">Battle Phase</span><strong>SVS Alliance Window</strong></td>
+            <td>Players can join or switch into SVS-designated alliances for coordinated castle attack rallies. This window is short — act fast.</td>
+            <td>Once the 1-hour window closes, alliance assignments lock for the Castle Battle. You cannot switch alliances after 11:00 UTC for castle scoring purposes.</td>
+            <td>Know your alliance assignment in advance. Confirm with R4/R5 which alliance you're joining for the Castle Battle. Don't wait — the window is only 60 minutes.</td>
+          </tr>
+          <tr>
+            <td><span class="time-tag">11:00</span></td>
+            <td><span class="phase-tag phase--battle">Battle Phase</span><strong>SFC Red Zone Opens</strong></td>
+            <td>Teleportation directly into the Sunfire Castle area of the losing state's territory becomes available. The castle area is "hot" — turrets are live and will attack enemy forces.</td>
+            <td>Castle turrets do NOT attack players from the state that currently controls the SFC. Turrets attack enemy alliance forces. Multiple turret positions surround the main castle.</td>
+            <td>Attacking rallies should be pre-assembled and ready to teleport. Infantry-heavy compositions are used for turret tanking. Rally leaders should have positions marked.</td>
+          </tr>
+          <tr>
+            <td><span class="time-tag">12:00</span></td>
+            <td><span class="phase-tag phase--battle">Battle Phase</span><strong>Castle Battle Begins</strong><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Main event — in the LOSING prep state</span></td>
+            <td>The Sunfire Castle Battle begins in the losing prep state's territory. Alliances rally to capture and hold the castle and its surrounding turrets. This is a territory-control fight.</td>
+            <td>Win condition: Hold the castle for 2.5 consecutive hours, OR accumulate the most total hold time over the full 5-hour battle. Per the Oct 22, 2025 patch, this 2.5-hour win / 5-hour battle rule applies to all servers — including S10+. Only the occupying alliance earns hold-time progress.</td>
+            <td>Attacking formation: ~50% Infantry / 20% Lancer / 30% Marksman. Defending garrison: ~60% Infantry / 40% Lancer / 0% Marksman. Your state's best ralliers should be positioned early.</td>
+          </tr>
+          <tr>
+            <td><span class="time-tag">12:00–17:00</span></td>
+            <td><span class="phase-tag phase--battle">Battle Phase</span><strong>Active Castle Contest</strong></td>
+            <td>Alliances from both states fight to control the castle. Every troop kill during this period scores points for individuals and alliances. The occupied castle ticks toward the win condition.</td>
+            <td>Points only for kills within ±3 furnace levels of attacker (rally captain's level counts for rally kills). Both states can score individually even if their alliance isn't at the castle.</td>
+            <td>If you're not in the castle fight, enemy raiders are still active in your state. Maintain shields or actively defend. Coordinate with state leaders to split offensive and defensive forces.</td>
+          </tr>
+          <tr>
+            <td><span class="time-tag">~17:00</span></td>
+            <td><span class="phase-tag phase--amber">Castle Ends</span><strong>Winner Declared</strong></td>
+            <td>The Castle Battle concludes when the win condition is met or time expires. The winning alliance's state gains castle control. Supreme President or split Presidents are assigned based on outcomes.</td>
+            <td>See Outcome Scenarios section below for all four result combinations. Castle winner is determined solely by hold time — not troop kills during the battle.</td>
+            <td><strong>Most common mistake: dropping your shield here.</strong> The Transfer Portal does NOT close at 17:00. Enemy raiders can still attack your city for 5 more hours. Re-shield immediately.</td>
+          </tr>
+          <tr>
+            <td><span class="time-tag">17:00–22:00</span></td>
+            <td><span class="phase-tag phase--battle">Battle Phase</span><strong>Post-Castle Free Attack</strong></td>
+            <td>Cross-state attacks continue for 5 more hours after the Castle Battle ends. This window is purely for personal and alliance leaderboard point grinding through troop kills.</td>
+            <td>Same ±3 furnace level rule applies. No territory objectives — this is open PvP. Zeroing policies (whether to completely zero cities) are typically agreed upon by state leaders before SVS.</td>
+            <td>Online and aggressive players use this window for personal rankings. Offline or casual players must stay shielded. The enemy state is equally free to raid your cities during this period.</td>
+          </tr>
+          <tr>
+            <td><span class="time-tag">22:00</span></td>
+            <td><span class="phase-tag phase--success" style="background:var(--color-success-highlight);color:var(--color-success);">Event Ends</span><strong>Transfer Portal Closes</strong></td>
+            <td>All cross-state movement ends. SVS scoring is finalized. Battle phase rewards are distributed. Field Triage Phase begins immediately.</td>
+            <td>No more cross-state access after this point. Players who crossed states are automatically returned home or must teleport back. Final leaderboard rankings lock.</td>
+            <td>Collect all battle phase rewards. Count your troop losses. Request or grant Revival Assistance in your alliance. The 90% troop revival window is now open.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Troop Ratio Section -->
+    <div style="margin-top:var(--space-10);">
+      <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-xl);color:var(--color-text);margin-bottom:var(--space-2);">Recommended Troop Compositions</h3>
+      <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-6);">Optimize your march composition based on your role during the Castle Battle.</p>
+      <div class="ratio-grid">
+        <div class="ratio-card">
+          <h4>⚔️ Attack Rally (Castle)</h4>
+          <div class="ratio-bars">
+            <div class="ratio-row"><span class="ratio-label">Infantry</span><div class="ratio-bar-wrap"><div class="ratio-bar bar-infantry" style="width:50%"></div></div><span class="ratio-pct" style="color:var(--color-primary);">50%</span></div>
+            <div class="ratio-row"><span class="ratio-label">Lancer</span><div class="ratio-bar-wrap"><div class="ratio-bar bar-lancer" style="width:20%"></div></div><span class="ratio-pct" style="color:var(--color-amber);">20%</span></div>
+            <div class="ratio-row"><span class="ratio-label">Marksman</span><div class="ratio-bar-wrap"><div class="ratio-bar bar-marksman" style="width:30%"></div></div><span class="ratio-pct" style="color:var(--color-success);">30%</span></div>
+          </div>
+        </div>
+        <div class="ratio-card">
+          <h4>🛡️ Castle Garrison (Defense)</h4>
+          <div class="ratio-bars">
+            <div class="ratio-row"><span class="ratio-label">Infantry</span><div class="ratio-bar-wrap"><div class="ratio-bar bar-infantry" style="width:60%"></div></div><span class="ratio-pct" style="color:var(--color-primary);">60%</span></div>
+            <div class="ratio-row"><span class="ratio-label">Lancer</span><div class="ratio-bar-wrap"><div class="ratio-bar bar-lancer" style="width:40%"></div></div><span class="ratio-pct" style="color:var(--color-amber);">40%</span></div>
+            <div class="ratio-row"><span class="ratio-label">Marksman</span><div class="ratio-bar-wrap"><div class="ratio-bar bar-marksman" style="width:0%"></div></div><span class="ratio-pct" style="color:var(--color-text-faint);">0%</span></div>
+          </div>
+        </div>
+        <div class="ratio-card">
+          <h4>🏙️ City Defense (SVS Raid)</h4>
+          <div class="ratio-bars">
+            <div class="ratio-row"><span class="ratio-label">Infantry</span><div class="ratio-bar-wrap"><div class="ratio-bar bar-infantry" style="width:70%"></div></div><span class="ratio-pct" style="color:var(--color-primary);">70%</span></div>
+            <div class="ratio-row"><span class="ratio-label">Lancer</span><div class="ratio-bar-wrap"><div class="ratio-bar bar-lancer" style="width:30%"></div></div><span class="ratio-pct" style="color:var(--color-amber);">30%</span></div>
+            <div class="ratio-row"><span class="ratio-label">Marksman</span><div class="ratio-bar-wrap"><div class="ratio-bar bar-marksman" style="width:0%"></div></div><span class="ratio-pct" style="color:var(--color-text-faint);">0%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ===== FIELD TRIAGE ===== -->
+<span class="section-anchor" id="triage"></span>
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Phase 3 · Sat 22:00 – Mon 23:59 UTC</span>
+      <h2 class="section-title">Field Triage — Troop Revival</h2>
+      <p class="section-desc">SVS is the safest large-scale war in the game. Up to 90% of your lost troops can be revived in the 48-hour window after battle ends.</p>
+    </div>
+    <div class="card-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));">
+      <div class="card" style="border-color:oklch(from var(--color-success) l c h / 0.3);">
+        <div style="font-size:1.75rem;margin-bottom:var(--space-3);">🔄</div>
+        <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-base);color:var(--color-text);margin-bottom:var(--space-2);">Base Revival Rate</h3>
+        <p style="font-size:2rem;font-weight:900;font-family:var(--font-display);color:var(--color-success);">30%</p>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-2);">Automatic baseline revival for all troops lost during SVS battle phase. No action required for this portion.</p>
+      </div>
+      <div class="card" style="border-color:oklch(from var(--color-primary) l c h / 0.3);">
+        <div style="font-size:1.75rem;margin-bottom:var(--space-3);">📜</div>
+        <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-base);color:var(--color-text);margin-bottom:var(--space-2);">Rebirth Tomes</h3>
+        <p style="font-size:2rem;font-weight:900;font-family:var(--font-display);color:var(--color-primary);">+50%</p>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-2);">Each player has 20 Rebirth Tomes to give to allies, but can receive up to 50 from other players (+1% per tome). Coordinate with alliance mates so heavy-loss players get tome assistance first.</p>
+      </div>
+      <div class="card" style="border-color:oklch(from var(--color-amber) l c h / 0.3);">
+        <div style="font-size:1.75rem;margin-bottom:var(--space-3);">💎</div>
+        <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-base);color:var(--color-text);margin-bottom:var(--space-2);">Revival Potions</h3>
+        <p style="font-size:2rem;font-weight:900;font-family:var(--font-display);color:var(--color-amber);">+10%</p>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-2);">Gem-purchased Revival Potions add up to 10% more (10 potions × 1% each, 2,250 gems total). Combined with tomes, this reaches the maximum revival rate.</p>
+      </div>
+      <div class="card" style="border-color:oklch(from var(--color-success) l c h / 0.3); background:var(--color-success-highlight);">
+        <div style="font-size:1.75rem;margin-bottom:var(--space-3);">🏆</div>
+        <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-base);color:var(--color-text);margin-bottom:var(--space-2);">Maximum Revival</h3>
+        <p style="font-size:2rem;font-weight:900;font-family:var(--font-display);color:var(--color-success);">90%</p>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-2);">30% base + 50% Rebirth Tomes received from allies + 10% Revival Potions = 90%. Note: Healing Speed (+20%) and Healing Capacity buffs are separate mechanics that affect infirmary throughput, not revival rate.</p>
+      </div>
+    </div>
+    <div class="callout callout--success" style="margin-top:var(--space-6);">
+      <div class="callout__icon">✅</div>
+      <div class="callout__content"><p><strong>Triage Etiquette:</strong> If you lost few troops, wait a day before requesting Rebirth Tomes from alliance mates. Let players with heavy losses get priority assistance first. Coordinate revival order in alliance chat so tomes go where they have the most impact.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ===== OUTCOMES ===== -->
+<span class="section-anchor" id="outcomes"></span>
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Victory Conditions</span>
+      <h2 class="section-title">Outcome Scenarios</h2>
+      <p class="section-desc">Prep and Castle Battle outcomes combine for four possible results. Winning both phases unlocks the most powerful position in the game.</p>
+    </div>
+    <div class="outcome-grid">
+      <div class="outcome-card" style="border-color:oklch(from var(--color-success) l c h / 0.3);background:var(--color-success-highlight);">
+        <div class="outcome-card__result" style="color:var(--color-success);">✅ Prep Win · ✅ Castle Win</div>
+        <h4>Supreme President</h4>
+        <p>Your alliance appoints the Supreme President — who holds authority over both states. Maximum buffs, maximum prestige. The best possible result.</p>
+      </div>
+      <div class="outcome-card" style="border-color:var(--color-border);">
+        <div class="outcome-card__result" style="color:var(--color-primary);">✅ Prep Win · ❌ Castle Loss</div>
+        <h4>Split Presidents</h4>
+        <p>Each state appoints its own local President. Your SFC was safe (your state was the attacker) but the enemy held the castle. Partial victory.</p>
+      </div>
+      <div class="outcome-card" style="border-color:var(--color-border);">
+        <div class="outcome-card__result" style="color:var(--color-amber);">❌ Prep Loss · ✅ Castle Win</div>
+        <h4>Split Presidents</h4>
+        <p>Your state defended the castle on home turf and won. Each state appoints its own President. An impressive comeback despite losing prep.</p>
+      </div>
+      <div class="outcome-card" style="border-color:oklch(from var(--color-danger) l c h / 0.3);background:var(--color-danger-highlight);">
+        <div class="outcome-card__result" style="color:var(--color-danger);">❌ Prep Loss · ❌ Castle Loss</div>
+        <h4>Enemy Supreme President</h4>
+        <p>The enemy alliance appoints Supreme President over both states. Maximum buffs for them — time to rebuild and prepare for the next SVS cycle.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ===== PRO TIPS ===== -->
+<span class="section-anchor" id="tips"></span>
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Expert Advice</span>
+      <h2 class="section-title">Pro Tips from the Field</h2>
+      <p class="section-desc">The difference between a state that wins SVS and one that doesn't usually comes down to preparation and coordination, not raw power.</p>
+    </div>
+    <div class="tips-list">
+      <div class="tip">
+        <div class="tip__num">1</div>
+        <div class="tip__body">
+          <h4>Watch for KOI on the Event Calendar</h4>
+          <p>The single most reliable SVS prediction tool. If King of Icefield appears on your event schedule for next week, your SVS battle day is approximately 14 days away. Check the calendar every Sunday to stay ahead of your leadership's holding orders.</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip__num">2</div>
+        <div class="tip__body">
+          <h4>Hold the Right Things — Not Everything</h4>
+          <p>Fire Crystals, Refined Fire Crystals, Mithril, Training Speedups, Construction Speedups, Research Speedups, Stamina Cans, Mythic/Epic Hero Shards, Lucky Chips, Chief Gear materials. These are the items that score points on specific days. Daily quest completion, normal training, gathering, and beast hunting are perfectly fine to continue.</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip__num">3</div>
+        <div class="tip__body">
+          <h4>Day 4 Mithril is the Biggest Individual Lever</h4>
+          <p>At 144,000 points per Mithril, a single player spending 10 Mithril contributes 1.44 million prep points. This is 10–20× more efficient than any other single item. If you only stockpile one thing, make it Mithril.</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip__num">4</div>
+        <div class="tip__body">
+          <h4>Beast Day — Start Rallies, Don't Just Join Them</h4>
+          <p>On Day 3 (Beast Slay), only the rally STARTER scores points from Polar Terror rallies. Players who join get zero points from those kills. Coordinate with your alliance so each member gets turns as rally leader. Don't waste your 30,000-point opportunities by being a perpetual joiner.</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip__num">5</div>
+        <div class="tip__body">
+          <h4>Shield Up at 09:45 UTC on Battle Saturday</h4>
+          <p>Set a timer. The Transfer Portal opens at exactly 10:00 UTC and enemy players can teleport into your city immediately. If you're not actively fighting, you need to be shielded before that clock hits. A 10-minute buffer is your safety margin.</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip__num">6</div>
+        <div class="tip__body">
+          <h4>The Castle Battle Ending ≠ SVS Ending</h4>
+          <p>The most common error new SVS players make. The castle fight ends around 17:00 UTC but the Transfer Portal stays open until 22:00 UTC. Players celebrating the battle by dropping their shield get zeroed. Re-shield the moment the castle result is announced and don't drop it until 22:00 UTC.</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip__num">7</div>
+        <div class="tip__body">
+          <h4>Don't Fear Troop Loss — SVS Has 90% Revival</h4>
+          <p>SVS is the most forgiving combat event for troop loss. With alliance coordination on Rebirth Tomes and the built-in revival system, players can recover up to 90% of losses. Fight aggressively — the troop loss risk is far lower than a normal war. Passivity loses states more than reckless fighting does.</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip__num">8</div>
+        <div class="tip__body">
+          <h4>Gatherers on Tiles at 16:00 UTC Monday</h4>
+          <p>Sending gathering marches out at 16:00 UTC on Day 1 (Monday) times them to return on Tuesday morning — right as Day 2 (Basic Skills Up) begins. Gathering scores points when you collect from tiles, so returning marches at Day 2 start maximizes your gathering contribution without wasting Day 1 scoring time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <p>SVS Complete Guide · Whiteout Survival · All times in UTC · Updated for current server mechanics</p>
+    <p style="margin-top:var(--space-2);">Built for State 4104 players who want to know the full picture before SVS arrives.</p>
+  </div>
+</footer>
+
+<script>
+// Lock dark theme (defensive — html element already has data-theme="dark")
+document.documentElement.setAttribute('data-theme', 'dark');
+
+// Active nav highlighting on scroll
+(function(){
+  const sections = document.querySelectorAll('.section-anchor');
+  const links = document.querySelectorAll('.nav__links a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        links.forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+})();
+</script>
+</body>
+</html>
