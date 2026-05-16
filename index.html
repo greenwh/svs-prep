@@ -437,6 +437,10 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
         <p class="section-desc">5.5 days of competitive scoring against your enemy state. Each day targets a different activity. The state with more total points gets to invade — a massive strategic advantage.</p>
       </div>
     </div>
+    <div class="callout callout--warn" style="margin-bottom:var(--space-6);">
+      <div class="callout__icon">⚠️</div>
+      <div class="callout__content"><p><strong>Always verify in-game before spending.</strong> The in-game Prep Phase panel is the only ground truth for what scores on which day. Specific scoring items can change between SVS events — items in this table were verified against the May 2026 event but may vary in future events. Open the in-game Phases tab before spending any premium item.</p></div>
+    </div>
     <div class="timeline-wrapper">
       <table class="timeline-table" aria-label="Prep phase day by day timeline">
         <thead>
@@ -455,8 +459,8 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
             <td><span class="time-tag">00:00</span></td>
             <td><span class="phase-tag phase--prep">Prep Day 1</span><strong>City Construction</strong></td>
             <td>Use Fire Crystals and Refined Fire Crystals on buildings and research. Apply Construction and Research Speedups. Upgrade Chief Charm levels.</td>
-            <td>1 Refined Fire Crystal = 30,000 pts · 1 Fire Crystal = 2,000 pts · 1-minute Speedup = 30 pts · Chief Charm upgrade = large variable pts. Avoid upgrading things that don't score.</td>
-            <td>Save your Fire Crystals, Refined Fire Crystals, and ALL construction/research speedups for this day. DO NOT use them before SVS starts. Start gathering tiles at 16:00 UTC Monday for Day 2 scoring.</td>
+            <td>1 Refined Fire Crystal = 30,000 pts · 1 Fire Crystal = 2,000 pts · 1-minute Construction/Research/Training Speedup = 30 pts · Chief Charm upgrade = large variable pts. Training Speedups score directly today (and Days 2 and 5). Avoid upgrading things that don't score.</td>
+            <td>Save your Fire Crystals, Refined Fire Crystals, and ALL construction/research speedups for this day. Burn any Training Speedups you won't need for Day 4 troop completion — they score 30 pts/min today too. Start gathering tiles at 16:00 UTC Monday for Day 2 scoring.</td>
           </tr>
           <tr>
             <td><span class="day-badge" style="color:var(--color-primary);">Tuesday</span><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Day 2 — 24 hrs</span></td>
@@ -480,7 +484,7 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
             <td><span class="phase-tag phase--prep">Prep Day 4</span><strong>Hero Development</strong></td>
             <td>Train troops (especially T10/T11), upgrade Chief Charm, refine pets using Mithril. The President activates a State Training Buff during this day.</td>
             <td>1 Mithril = 144,000 pts · T11 troop trained = 75 pts each · T10 = 60 pts each · Chief Charm = 70 pts per score point. Mithril is by far the highest single-item scorer.</td>
-            <td>Save all Mithril, Training Speedups, and Chief Charm upgrade materials. Keep training queues ready to fire the moment Day 4 starts. This day can make or break the state's total.</td>
+            <td>Save enough Training Speedups to complete your Day 4 troop queues — speedups don't score directly on Day 4, but the extra troops they finish DO (T10 = 60 pts, T11 = 75 pts each). Save all Mithril and Chief Charm upgrade materials. Keep training queues ready to fire the moment Day 4 starts.</td>
           </tr>
           <tr>
             <td><span class="day-badge" style="color:var(--color-primary);">Friday</span><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Day 5 — 34 hrs</span></td>
@@ -690,7 +694,7 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
       <div class="outcome-card" style="border-color:oklch(from var(--color-success) l c h / 0.3);background:var(--color-success-highlight);">
         <div class="outcome-card__result" style="color:var(--color-success);">✅ Prep Win · ✅ Castle Win</div>
         <h4>Supreme President</h4>
-        <p>Your alliance appoints the Supreme President — who holds authority over both states. Maximum buffs, maximum prestige. The best possible result.</p>
+        <p>Your alliance appoints the Supreme President — who holds authority over both states, controlling minister appointments and reward issuance for both. The losing state has <strong>no local president</strong> for that round (the presidency is vacant). Maximum buffs, maximum prestige. The best possible result.</p>
       </div>
       <div class="outcome-card" style="border-color:var(--color-border);">
         <div class="outcome-card__result" style="color:var(--color-primary);">✅ Prep Win · ❌ Castle Loss</div>
@@ -705,7 +709,7 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
       <div class="outcome-card" style="border-color:oklch(from var(--color-danger) l c h / 0.3);background:var(--color-danger-highlight);">
         <div class="outcome-card__result" style="color:var(--color-danger);">❌ Prep Loss · ❌ Castle Loss</div>
         <h4>Enemy Supreme President</h4>
-        <p>The enemy alliance appoints Supreme President over both states. Maximum buffs for them — time to rebuild and prepare for the next SVS cycle.</p>
+        <p>The enemy alliance appoints Supreme President over both states, controlling minister appointments and reward issuance for both. Your state's presidency is <strong>vacant</strong> for that round — time to rebuild and prepare for the next SVS cycle.</p>
       </div>
     </div>
   </div>
@@ -779,6 +783,13 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
           <p>Sending gathering marches out at 16:00 UTC on Day 1 (Monday) times them to return on Tuesday morning — right as Day 2 (Basic Skills Up) begins. Gathering scores points when you collect from tiles, so returning marches at Day 2 start maximizes your gathering contribution without wasting Day 1 scoring time.</p>
         </div>
       </div>
+      <div class="tip">
+        <div class="tip__num">9</div>
+        <div class="tip__body">
+          <h4>Don't Alliance-Hop Before Tally</h4>
+          <p>Alliance rewards are not distributed to members who leave the alliance before the tally phase. If you're considering changing alliances, wait until after SVS rewards are issued — leaving early means forfeiting your share of alliance leaderboard rewards, ranking rewards, and tier bonuses. This catches new players off guard most often.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -786,7 +797,7 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
 <!-- ===== FOOTER ===== -->
 <footer class="footer">
   <div class="container">
-    <p>SVS Complete Guide · Whiteout Survival · All times in UTC · Updated for current server mechanics</p>
+    <p>SVS Complete Guide · Whiteout Survival · All times in UTC · Last verified May 2026 against in-game Rules and Phases screens</p>
     <p style="margin-top:var(--space-2);">Built for State 4104 players who want to know the full picture before SVS arrives.</p>
   </div>
 </footer>
