@@ -380,6 +380,37 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
 
 <hr class="section-divider">
 
+<!-- ===== HOW SCORING WORKS ===== -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Scoring Model</span>
+      <h2 class="section-title">How Scoring Works</h2>
+      <p class="section-desc">Completing a prep task adds points to three separate buckets at once. Understanding this model helps you see why every point matters at every level.</p>
+    </div>
+    <div class="card-grid card-grid--3">
+      <div class="card" style="border-color:oklch(from var(--color-primary) l c h / 0.3); background:var(--color-primary-highlight);">
+        <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-base);color:var(--color-text);margin-bottom:var(--space-2);">1. My Points</h3>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.6;">Your personal score. Drives personal leaderboard rankings and individual rewards.</p>
+      </div>
+      <div class="card" style="border-color:oklch(from var(--color-amber) l c h / 0.3); background:var(--color-amber-highlight);">
+        <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-base);color:var(--color-text);margin-bottom:var(--space-2);">2. Alliance Points</h3>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.6;">Your alliance's score. Drives alliance leaderboard rankings and alliance rewards.</p>
+      </div>
+      <div class="card" style="border-color:oklch(from var(--color-success) l c h / 0.3); background:var(--color-success-highlight);">
+        <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-base);color:var(--color-text);margin-bottom:var(--space-2);">3. State Points</h3>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.6;">Your state's total score. Decides Attacker vs. Defender role for the Battle Phase. The state with more total State Points becomes the Attacker.</p>
+      </div>
+    </div>
+    <div class="callout callout--info" style="margin-top:var(--space-6);">
+      <div class="callout__icon">ℹ️</div>
+      <div class="callout__content"><p>My Points and Alliance Points always credit the full task value. State Points are scaled by your Furnace level: at Lv. ≥16, you contribute 100% of the task value to your state. The game notes "Level requirements may be adjusted based on State progression" for older states.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
 <!-- ===== MATCHMAKING ===== -->
 <span class="section-anchor" id="matchmaking"></span>
 <section>
@@ -467,16 +498,16 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
             <td><span class="time-tag">00:00</span></td>
             <td><span class="phase-tag phase--prep">Prep Day 2</span><strong>Basic Skills Up</strong></td>
             <td>Hero Shard use (especially Mythic and Epic), Lucky Wheel spins, gathering resources from map tiles. Continued Fire Crystal use still scores.</td>
-            <td>1 Mythic Hero Shard = 3,040 pts · 1 Lucky Wheel spin = 8,000 pts · 1 Epic Hero Shard = 1,220 pts · 1 Rare Hero Shard = 350 pts. Gathering gives minor points but adds up over the day.</td>
-            <td>Hoard all Mythic and Epic Hero Shards, Lucky Chips. Send marches to high-tier resource tiles on Monday night so they return during Day 2. Do NOT spend these before SVS.</td>
+            <td>1 Mythic Hero Shard = 3,040 pts · 1 Lucky Wheel spin = 8,000 pts · 1 Epic Hero Shard = 1,220 pts · 1 Rare Hero Shard = 350 pts. Gathering gives minor points but adds up over the day. <strong>General Shards do NOT score</strong> — only hero-specific shards count.</td>
+            <td>Hoard all Mythic and Epic <em>hero-specific</em> Hero Shards, Lucky Chips. Send marches to high-tier resource tiles on Monday night so they return during Day 2. Do NOT spend these before SVS. General Shards are excluded — do not burn them.</td>
           </tr>
           <tr>
             <td><span class="day-badge" style="color:var(--color-primary);">Wednesday</span><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Day 3 — 24 hrs</span></td>
             <td><span class="time-tag">00:00</span></td>
             <td><span class="phase-tag phase--prep">Prep Day 3</span><strong>Beast Slay</strong></td>
-            <td>Solo beast hunts (Lv. 26–30) for high points. Start Polar Terror (Svalbard Bear) rallies with alliance. Pet refinements using Wild Marks also score well.</td>
+            <td>Solo beast hunts (Lv. 26–30) for high points. Start Polar Terror (Svalbard Bear) rallies with alliance. Pet refinements using Wild Marks (in-game: Pet Refinement / Pet Advanced Refinement) also score well — Advanced 15,000 pts, Common 1,150 pts.</td>
             <td>Polar Terror rally = 30,000 pts · Lv.26–30 beast solo = 12,000 pts · Lv.21–25 = 11,250 · Lv.16–20 = 10,500 · Lv.11–15 = 9,750 · Lv.1–10 = 9,000. <strong>CRITICAL: Only the rally STARTER scores from rallies — joiners get 0 points.</strong></td>
-            <td>Save all Stamina Cans and Advanced Wild Marks for this day. Coordinate with alliance on rally leadership rotation so each person gets to start rallies. Burn all stamina on high-level beasts.</td>
+            <td>Save all Stamina Cans and Advanced Wild Marks (Pet Advanced Refinement in-game) for this day. Coordinate with alliance on rally leadership rotation so each person gets to start rallies. Burn all stamina on high-level beasts.</td>
           </tr>
           <tr>
             <td><span class="day-badge" style="color:var(--color-primary);">Thursday</span><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Day 4 — 24 hrs</span></td>
@@ -490,9 +521,9 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
             <td><span class="day-badge" style="color:var(--color-primary);">Friday</span><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Day 5 — 34 hrs</span></td>
             <td><span class="time-tag">00:00</span></td>
             <td><span class="phase-tag phase--prep">Prep Day 5</span><strong>Power Boost</strong></td>
-            <td>"Kitchen sink" day — nearly everything scores: Chief Gear upgrades, Pet upgrades, Hero Gear, Essence Stones, any remaining Fire Crystals, Speedups, Hero Shards. President activates Research Buff.</td>
+            <td>"Kitchen sink" day — nearly everything scores: Chief Gear upgrades, Pet upgrades, any remaining Fire Crystals, Speedups, Hero Shards. President activates Research Buff. <strong>Hero gear scoring:</strong> only Essence Stones (Master Forgery, 4,000 pts each) and Hero Exclusive Gear Widgets (8,000 pts each) score — NOT raw enhancement, XP Components, or feeder gear consumption.</td>
             <td>This phase runs 34 hours (not 24), ending Saturday at 10:00 UTC. Spread your remaining stockpile across the full window. All categories from previous days continue to score.</td>
-            <td>Save Chief Gear upgrade materials, Essence Stones, Pet upgrade materials, and any leftover items from Days 1–4. The extra 10 hours at the end is premium scoring time — set alarms.</td>
+            <td>Save Chief Gear upgrade materials, Essence Stones, Exclusive Gear Widgets, Pet upgrade materials, and any leftover items from Days 1–4. Do NOT burn XP Components expecting hero gear points — they don't score. The extra 10 hours at the end is premium scoring time — set alarms.</td>
           </tr>
           <tr>
             <td><span class="day-badge" style="color:var(--color-danger);">Saturday</span></td>
@@ -545,14 +576,14 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
             <td><span class="time-tag">10:00</span></td>
             <td><span class="phase-tag phase--battle">Battle Phase</span><strong>Transfer Portal Opens</strong><br><span style="font-size:var(--text-xs);color:var(--color-text-faint);">Cross-state attacks begin</span></td>
             <td>The inter-state portal activates. Enemy players (Furnace Lv.16+) can now teleport directly into your state — including inside alliance hives — and attack unshielded cities. All president buffs from prep are deactivated.</td>
-            <td>Cannot attack alliance buildings. Furnace Lv.16 minimum to cross states. Each player has 3 free cross-state teleports. Points awarded for enemy troop kills within ±3 furnace levels of attacker.</td>
-            <td>Shield up BEFORE 10:00 UTC if not participating. Prep rewards should already be collected. Coordinate teleport rally points with your alliance.</td>
+            <td>Cannot attack alliance buildings. Furnace Lv.16 minimum to cross states. Each player has 3 free cross-state teleports. Points awarded for enemy troop kills within ±3 furnace levels of attacker. <strong>Note:</strong> the 3 free SoP teleporters drop you at a RANDOM location in the opposing state. Use an Advanced Teleporter for controlled positioning.</td>
+            <td>Shield up BEFORE 10:00 UTC if not participating. Prep rewards should already be collected. Coordinate teleport rally points with your alliance. Use Advanced Teleporters if you need to land at a specific position.</td>
           </tr>
           <tr>
             <td><span class="time-tag">10:00–11:00</span></td>
             <td><span class="phase-tag phase--battle">Battle Phase</span><strong>SVS Alliance Window</strong></td>
             <td>Players can join or switch into SVS-designated alliances for coordinated castle attack rallies. This window is short — act fast.</td>
-            <td>Once the 1-hour window closes, alliance assignments lock for the Castle Battle. You cannot switch alliances after 11:00 UTC for castle scoring purposes.</td>
+            <td>The official designated window is 10:00–11:00 UTC. Note: in the May 2026 SVS event, alliance transfers were observed to remain possible past 11:00 UTC — but don't rely on it. Aim to be in position before 11:00 to be safe. <strong>Important:</strong> same-state alliances are still enemies — you cannot join their rallies or reinforce them even if they appear blue.</td>
             <td>Know your alliance assignment in advance. Confirm with R4/R5 which alliance you're joining for the Castle Battle. Don't wait — the window is only 60 minutes.</td>
           </tr>
           <tr>
@@ -599,6 +630,20 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- Return-Home Mechanics -->
+    <div style="margin-top:var(--space-10);">
+      <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-xl);color:var(--color-text);margin-bottom:var(--space-2);">After the Battle: Return-Home Mechanics</h3>
+      <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-4);">The State of Power event page has a <strong style="color:var(--color-text);">"Return to your State"</strong> button that sends you back to your home state. Key behavior to know:</p>
+      <div class="callout callout--warn">
+        <div class="callout__icon">⚠️</div>
+        <div class="callout__content">
+          <p><strong>Return-Home places you at your original pre-SVS spot if clear</strong> — or "close" to it if the spot is blocked by beasts, resource nodes, or buildings. This can be a meaningful distance from your intended position.</p>
+          <p style="margin-top:var(--space-3);"><strong>Alliance constraint:</strong> If you jumped to the battle alliance for the Castle Battle and are staying through 22:00 UTC tally, you cannot teleport onto home alliance territory — you're still in the battle alliance. You'll be stuck near your original spot for the ~17:00–22:00 UTC window.</p>
+          <p style="margin-top:var(--space-3);"><strong>Sequence for battle-alliance jumpers:</strong> (1) Position city on a clear tile before SVS week · (2) Jump to battle alliance · (3) After castle ends ~17:00, use Return-Home · (4) Stay in battle alliance until 22:00 UTC tally · (5) Rejoin home alliance and teleport to alliance territory.</p>
+        </div>
+      </div>
     </div>
 
     <!-- Troop Ratio Section -->
@@ -786,8 +831,15 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
       <div class="tip">
         <div class="tip__num">9</div>
         <div class="tip__body">
-          <h4>Don't Alliance-Hop Before Tally</h4>
-          <p>Alliance rewards are not distributed to members who leave the alliance before the tally phase. If you're considering changing alliances, wait until after SVS rewards are issued — leaving early means forfeiting your share of alliance leaderboard rewards, ranking rewards, and tier bonuses. This catches new players off guard most often.</p>
+          <h4>Don't Leave Your Alliance Before 22:00 UTC Tally</h4>
+          <p>Alliance rewards are not distributed to members who leave the alliance before the tally phase at <strong>22:00 UTC on battle Saturday</strong>. If you jumped alliances to participate in the Castle Battle, stay in that alliance through 22:00 UTC — leaving early forfeits leaderboard rewards, ranking rewards, and tier bonuses.</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip__num">10</div>
+        <div class="tip__body">
+          <h4>Same-State Alliances Are Enemies in SVS Battle</h4>
+          <p>The blue label is misleading. During the Castle Battle, you cannot join rallies started by allied alliances or reinforce their marches. If you're in a small alliance and want to participate meaningfully, jump to the designated state "battle alliance" before 11:00 UTC. Coordinate with state leadership ahead of time so you know which alliance to join. Stay in the battle alliance until 22:00 UTC tally for rewards.</p>
         </div>
       </div>
     </div>
@@ -797,7 +849,7 @@ a.pill--purple:hover, a.pill--purple:focus-visible { color: var(--color-purple);
 <!-- ===== FOOTER ===== -->
 <footer class="footer">
   <div class="container">
-    <p>SVS Complete Guide · Whiteout Survival · All times in UTC · Last verified May 2026 against in-game Rules and Phases screens</p>
+    <p>SVS Complete Guide · Whiteout Survival · All times in UTC · Last verified May 2026 against in-game Rules and Phases screens + battle-day observation</p>
     <p style="margin-top:var(--space-2);">Built for State 4104 players who want to know the full picture before SVS arrives.</p>
   </div>
 </footer>
